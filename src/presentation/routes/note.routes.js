@@ -10,7 +10,7 @@ import NoteMysqlRepository from "../../infrastructure/database/mysql/note.mysql.
 
 // inyeccion de dependencias
 const noteRepository = new NoteMongoRepository();
-//const noteRepository = new NoteMysqlRepository();
+const noteRepository = new NoteMysqlRepository();
 
 const noteService = new NoteService(noteRepository);
 const noteController = new NoteController(noteService);
