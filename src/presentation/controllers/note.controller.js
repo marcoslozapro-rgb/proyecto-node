@@ -24,4 +24,36 @@ export default class NoteController {
             res.status(404).json({ error: error.message });
         }
     }
+    getNoteById = async (req, res) => {
+        try {
+            const note = await this.noteService.getNoteById(req.params.id);
+            res.status(200).json(note);
+        } catch (error) {
+            res.status(404).json({ error: error.message });
+        }
+    }
+
+    updateNote = async (req, res) => {
+        try {
+            const data = req.body;
+
+            if (req.file) {
+                data.imageUrl = "/uploads/" + req.file.filename;
+            }
+
+            const note = await this.noteService.updateNote(req.params.id, data);
+            res.status(200).json(note);
+        } catch (error) {
+            res.status(404).json({ error: error.message });
+        }
+    }
+
+    deleteNote = async (req, res) => {
+        try {
+            const result = await this.noteService.deleteNote(req.params.id);
+            res.status(200).json(result);
+        } catch (error) {
+            res.status(404).json({ error: error.message });
+        }
+    }
 }

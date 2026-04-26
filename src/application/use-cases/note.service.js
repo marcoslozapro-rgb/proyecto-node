@@ -2,8 +2,9 @@
 import NoteEntity from "../../domain/entities/note.entity.js";
 
 export default class NoteService {
-    constructor(noteRepository) {
+    constructor(noteRepository, mailService) {
         this.noteRepository = noteRepository;
+        this.mailService = mailService;
     }
 
     async createNote(data) {
@@ -15,5 +16,34 @@ export default class NoteService {
 
     async getNotesByUserId(userId) {
         return await this.noteRepository.findByUserId(userId);
+    }
+
+    async updateNote(id, data) {
+        const note = await this.noteRepository.update(id, data);
+        if (!note) throw new Error("Note not found");
+        return note;
+    }
+
+    async deleteNote(id) {
+        const note = await this.noteRepository.delete(id);
+        if (!note) throw new Error("Note not found");
+        return { message: "Note deleted successfully" };
+    }
+    async getNoteById(id) {
+        const note = await this.noteRepository.findById(id);
+        if (!note) throw new Error("Note not found");
+        return note;
+    }
+
+    async shareNoteByEmail(noteId, targetEmail, currentUserId) {
+        const note = await this.noteRepository.findById(noteId);
+        if (!note) throw new Error("Note not found");
+
+        // RESTRICCIÓN: Solo el dueño puede compartirla
+        if (note.userId !== currentUserId) {
+            throw new Error("Unauthorized: You can only share your own notes");
+        }
+
+        return await this.mailService.sendNoteEmail(targetEmail, note);
     }
 }
