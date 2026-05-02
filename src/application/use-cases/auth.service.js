@@ -24,7 +24,11 @@ export default class AuthService {
         const isMatch = await HashService.compare(password, user.password);
         if (!isMatch) { throw new Error("Invalid credentials"); }
 
-        const token = jwt.sign({ id: user.id, email: user.email, role: user.role });
+        const token = jwt.generateToken({
+            id: user.id,
+            email: user.email,
+            role: user.role
+        });
 
         return { token };
     }

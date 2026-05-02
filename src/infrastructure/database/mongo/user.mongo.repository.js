@@ -1,35 +1,23 @@
-import NoteModel from "./note.model.js";
+import UserModel from "./user.model.js";
 
-export default class NoteMongoRepository {
-    async save(noteEntity) {
-        const note = new NoteModel({
-            title: noteEntity.title,
-            content: noteEntity.content,
-            imageUrl: noteEntity.imageUrl,
-            isPrivate: noteEntity.isPrivate,
-            password: noteEntity.password,
-            userId: noteEntity.userId
+export default class UserMongoRepository {
+    async save(userEntity) {
+        const user = new UserModel({
+            name: userEntity.name,
+            email: userEntity.email,
+            password: userEntity.password,
+            role: userEntity.role
         });
 
-        const savedNote = await note.save();
-        return savedNote.toObject();
+        const savedUser = await user.save();
+        return savedUser.toObject();
     }
 
-    async findByUserId(userId) {
-        return await NoteModel.find({ userId });
+    async findByEmail(email) {
+        return await UserModel.findOne({ email });
     }
 
     async findById(id) {
-        return await NoteModel.findById(id);
-    }
-
-    async update(id, data) {
-        return await NoteModel.findByIdAndUpdate(id, data, {
-            new: true,
-        });
-    }
-
-    async delete(id) {
-        return await NoteModel.findByIdAndDelete(id);
+        return await UserModel.findById(id);
     }
 }
