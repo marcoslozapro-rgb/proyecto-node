@@ -24,6 +24,10 @@ const NoteModel = sequelize.define("Note", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    categoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
 });
 
 export default NoteModel;

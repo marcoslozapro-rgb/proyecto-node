@@ -55,6 +55,9 @@ const router = Router();
  *               content:
  *                 type: string
  *                 example: "Finalizar el módulo de backend hoy."
+ *               categoryId:
+ *                 type: integer
+ *                 example: 1
  *               image:
  *                 type: string
  *                 format: binary
@@ -76,6 +79,8 @@ const router = Router();
  *                   type: string
  *                 userId:
  *                   type: string
+ *                 categoryId:
+ *                   type: integer
  *       400:
  *         description: Título o contenido faltante
  */

@@ -9,6 +9,7 @@ export default class NoteMySQLRepository {
             isPrivate: noteEntity.isPrivate,
             password: noteEntity.password,
             userId: noteEntity.userId,
+            categoryId: noteEntity.categoryId,
         });
 
         return note.toJSON();
