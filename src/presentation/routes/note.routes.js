@@ -140,6 +140,9 @@ router.get("/", authMiddleware, noteController.getNotesByUserId);
  *                 type: string
  *               content:
  *                 type: string
+ *               isPrivate:
+ *                 type: boolean
+ *                 example: true
  *               image:
  *                 type: string
  *                 format: binary
@@ -258,6 +261,7 @@ router.post("/:id/share", authMiddleware, noteController.shareNote);
  *       404:
  *         description: Nota no encontrada
  */
+router.get("/:id/public", noteController.getPublicNote);
 router.get("/:id", authMiddleware, noteController.getNoteById);
 
 export default router;
