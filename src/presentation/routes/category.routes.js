@@ -54,5 +54,61 @@ router.post("/", authMiddleware, categoryController.createCategory);
  *         description: Token faltante o inválido
  */
 router.get("/", authMiddleware, categoryController.getCategoriesByUserId);
+/**
+ * @swagger
+ * /categories/{id}:
+ *   put:
+ *     summary: Actualizar una categoría
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Tareas"
+ *     responses:
+ *       200:
+ *         description: Categoría actualizada correctamente
+ *       403:
+ *         description: Acceso no autorizado
+ *       404:
+ *         description: Categoría no encontrada
+ */
+router.put("/:id", authMiddleware, categoryController.updateCategory);
+/**
+ * @swagger
+ * /categories/{id}:
+ *   delete:
+ *     summary: Eliminar una categoría
+ *     tags: [Categories]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Categoría eliminada correctamente
+ *       403:
+ *         description: Acceso no autorizado
+ *       404:
+ *         description: Categoría no encontrada
+ */
+router.delete("/:id", authMiddleware, categoryController.deleteCategory);
 
 export default router;

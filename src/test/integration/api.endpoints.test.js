@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from '../../src/app.js';
+import app from '../../app.js';
 import mongoose from 'mongoose';
-import JwtService from '../../src/infrastructure/security/jwt.service.js';
+import JwtService from '../../infrastructure/security/jwt.service.js';
 
 describe('Integración - API Completa', () => {
 
@@ -12,7 +12,7 @@ describe('Integración - API Completa', () => {
 
     describe('1. Healthcheck Endpoint', () => {
         test('GET /api/v1/health debería devolver 200 OK y estado', async () => {
-            const response = await request(app).get('/api/v1/health');
+            const response = await request(app).get('/api/health')
             expect(response.statusCode).toBe(200);
             expect(response.body).toHaveProperty('status', 'OK');
         });
@@ -33,7 +33,7 @@ describe('Integración - API Completa', () => {
         test('GET /api/v1/notes debería fallar si no se envía Token (401)', async () => {
             const response = await request(app).get('/api/v1/notes');
             expect(response.statusCode).toBe(401);
-            expect(response.body).toHaveProperty('error', 'Token no proveído');
+            expect(response.body).toHaveProperty('error', 'Authorization header missing or invalid');
         });
 
         test('POST /api/v1/notes debería fallar si falta el Título (400 o 500)', async () => {

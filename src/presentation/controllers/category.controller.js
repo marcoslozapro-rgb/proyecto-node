@@ -25,4 +25,46 @@ export default class CategoryController {
             res.status(400).json({ error: error.message });
         }
     }
+    updateCategory = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const data = req.body;
+            const currentUserId = req.user.id;
+
+            const category = await this.categoryService.updateCategory(id, data, currentUserId);
+
+            res.status(200).json(category);
+        } catch (error) {
+            if (error.message === "Category not found") {
+                return res.status(404).json({ error: error.message });
+            }
+
+            if (error.message.startsWith("Unauthorized")) {
+                return res.status(403).json({ error: error.message });
+            }
+
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    deleteCategory = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const currentUserId = req.user.id;
+
+            const result = await this.categoryService.deleteCategory(id, currentUserId);
+
+            res.status(200).json(result);
+        } catch (error) {
+            if (error.message === "Category not found") {
+                return res.status(404).json({ error: error.message });
+            }
+
+            if (error.message.startsWith("Unauthorized")) {
+                return res.status(403).json({ error: error.message });
+            }
+
+            res.status(400).json({ error: error.message });
+        }
+    }
 }

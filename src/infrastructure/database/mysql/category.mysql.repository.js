@@ -15,4 +15,24 @@ export default class CategoryMySQLRepository {
             where: { userId },
         });
     }
+    async findById(id) {
+        const category = await CategoryModel.findByPk(id);
+        return category ? category.toJSON() : null;
+    }
+
+    async update(id, data) {
+        const category = await CategoryModel.findByPk(id);
+        if (!category) return null;
+
+        await category.update(data);
+        return category.toJSON();
+    }
+
+    async delete(id) {
+        const category = await CategoryModel.findByPk(id);
+        if (!category) return null;
+
+        await category.destroy();
+        return true;
+    }
 }

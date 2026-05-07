@@ -11,9 +11,10 @@ import { connectMysql } from './infrastructure/database/mysql/connection.js';
 import { setupSwagger } from './infrastructure/config/swagger.config.js';
 import categoryRoutes from './presentation/routes/category.routes.js';
 
-await connectMongo();
-await connectMysql();
-
+if (process.env.NODE_ENV !== 'test') {
+    await connectMongo();
+    await connectMysql();
+}
 const app = express();
 
 app.use(cors());
@@ -42,7 +43,11 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+export default app;
+
+if (process.env.NODE_ENV !== 'test') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Servidor escuchando en el puerto ${PORT}`);
+    });
+}
